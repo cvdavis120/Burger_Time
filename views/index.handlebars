@@ -1,6 +1,6 @@
 <html>
 <head>
-  <link rel="stylesheet" type="text/css" href="/Burger_Time/public/style.css">
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
 
   <script src="https://code.jquery.com/jquery.js"></script>
 </head>
@@ -12,7 +12,7 @@
   {{#each burgers}}
   <li>
     <p>
-      {{this.id}}. {{this.burger}}
+      {{this.burger}}
 
       <button data-burgerid="{{this.id}}" class="delburger">Delete Burger!</button>
     </p>
@@ -26,7 +26,7 @@
   <button type="submit">Save Burger!</button>
 </form>
 
-<h2>Update a Burger</h2>
+<h2 class = "tomato">Update a Burger</h2>
 <form id="updateburger" class="button-size">
   <select name="id">
 		{{#each burgers}}

@@ -1,0 +1,27 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+}
+ul {
+  list-style-position: outside;
+}
+.container {
+  color: blue;
+  background-color: lightsalmon;
+}
+#createburger {
+  text-align: center;
+  background-color: rgba(15, 3, 3, 0.918);
+  z-index: 2;
+  margin-top: -20px;
+  height: 58px;
+  padding-top: 14px;
+}
+h2 {
+  background-color: green;
+}
+.tomato {
+  background-color: red;
+  margin-top: 0px;
+}
