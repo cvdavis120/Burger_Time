@@ -2,6 +2,7 @@ require("dotenv").config();
 var express = require("express");
 var exphbs = require("express-handlebars");
 var mysql = require("mysql");
+var path = require("path");
 
 var app = express();
 
@@ -9,6 +10,8 @@ var PORT = process.env.PORT || 3001;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use(express.static("public"));
 
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
@@ -31,20 +34,20 @@ connection.connect(function(err) {
 });
 
 app.get("/", function(req, res) {
-  connection.query("SELECT * FROM plans;", function(err, data) {
+  connection.query("SELECT * FROM burgers;", function(err, data) {
     if (err) {
       return res.status(500).end();
     }
 
-    res.render("index", { plans: data });
+    res.render("index", { burgers: data });
   });
 });
 
 // Create a new plan
-app.post("/api/plans", function(req, res) {
+app.post("/api/burgers", function(req, res) {
   connection.query(
-    "INSERT INTO plans (plan) VALUES (?)",
-    [req.body.plan],
+    "INSERT INTO burgers (burger) VALUES (?)",
+    [req.body.burger],
     function(err, result) {
       if (err) {
         return res.status(500).end();
@@ -58,10 +61,10 @@ app.post("/api/plans", function(req, res) {
 });
 
 // Update a plan
-app.put("/api/plans/:id", function(req, res) {
+app.put("/api/burgers/:id", function(req, res) {
   connection.query(
-    "UPDATE plans SET plan = ? WHERE id = ?",
-    [req.body.plan, req.params.id],
+    "UPDATE burgers SET burger = ? WHERE id = ?",
+    [req.body.burger, req.params.id],
     function(err, result) {
       if (err) {
         // If an error occurred, send a generic server failure
@@ -76,20 +79,21 @@ app.put("/api/plans/:id", function(req, res) {
 });
 
 // Delete a plan
-app.delete("/api/plans/:id", function(req, res) {
-  connection.query("DELETE FROM plans WHERE id = ?", [req.params.id], function(
-    err,
-    result
-  ) {
-    if (err) {
-      // If an error occurred, send a generic server failure
-      return res.status(500).end();
-    } else if (result.affectedRows === 0) {
-      // If no rows were changed, then the ID must not exist, so 404
-      return res.status(404).end();
+app.delete("/api/burgers/:id", function(req, res) {
+  connection.query(
+    "DELETE FROM burgers WHERE id = ?",
+    [req.params.id],
+    function(err, result) {
+      if (err) {
+        // If an error occurred, send a generic server failure
+        return res.status(500).end();
+      } else if (result.affectedRows === 0) {
+        // If no rows were changed, then the ID must not exist, so 404
+        return res.status(404).end();
+      }
+      res.status(200).end();
     }
-    res.status(200).end();
-  });
+  );
 });
 
 // Start our server so that it can begin listening to client requests.
